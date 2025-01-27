@@ -33,7 +33,7 @@ class Post(db.Model):
     author_id: Mapped[int] = mapped_column(sa.ForeignKey("user.id"), nullable=False)
 
     def __repr__(self) -> str:
-        return f"Post(id={self.id!r}, title={self.username!r}, author_id={self.author_id!r})"
+        return f"Post(id={self.id!r}, title={self.title!r}, author_id={self.author_id!r}, created_at={self.created_at!r})"
 
 
 @click.command("init-db")
@@ -70,8 +70,9 @@ def create_app(test_config=None):
     db.init_app(app)
 
     # register blueprints
-    from src.controllers import user
+    from src.controllers import post, user
 
     app.register_blueprint(user.app)
+    app.register_blueprint(post.app)
 
     return app
