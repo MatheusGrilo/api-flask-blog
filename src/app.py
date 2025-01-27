@@ -3,6 +3,7 @@ from datetime import datetime
 import click
 import sqlalchemy as sa
 from flask import Flask, current_app
+from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
@@ -12,6 +13,7 @@ class Base(DeclarativeBase):
 
 
 db = SQLAlchemy(model_class=Base)
+migrate = Migrate()
 
 
 class User(db.Model):
@@ -68,6 +70,7 @@ def create_app(test_config=None):
 
     # initialize extensions
     db.init_app(app)
+    migrate.init_app(app, db)
 
     # register blueprints
     from src.controllers import post, user
