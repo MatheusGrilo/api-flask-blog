@@ -36,6 +36,13 @@ poetry run flask --app src.app init-db
 
 ## Extra commands for future devs
 
+- Docker compose with PostgreSQL added in commit [`9e0084d`](https://github.com/MatheusGrilo/api-flask-blog/commit/9e0084df76dba3dc3e4d23ad3ff8cd7fd271e430), SQLite might get errors with migrations because of ForeignKeys 
+
+    ```sh
+    # Start PostgreSQL Database (version 17-alpine)
+    docker compose up -d
+    ```
+
 - Migrations from Flask-Migrate
 
     ```sh
