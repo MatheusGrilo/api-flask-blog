@@ -1,6 +1,8 @@
-from flask import Blueprint, request
-from src.app import User, db
 from http import HTTPStatus
+
+from flask import Blueprint, request
+
+from src.app import User, db
 
 app = Blueprint("user", __name__, url_prefix="/users")
 
@@ -31,3 +33,21 @@ def handle_user():
         return {"message": "User created!"}, HTTPStatus.CREATED
     else:
         return {"users": _list_users()}, HTTPStatus.OK
+
+
+@app.route("/<int:user_id>", methods=["GET"])
+def get_user(user_id):
+    user = db.get_or_404(User, user_id)
+    return {"id": user.id, "username": user.username}, HTTPStatus.OK
+
+
+@app.route("/<int:user_id>", methods=["PATCH"])
+def update_user(user_id):
+    user = db.get_or_404(User, user_id)
+    data = request.json
+
+    if "username" in data and data["username"] != user.username:
+        user.username = data["username"]
+        db.session.commit()
+
+    return {"id": user.id, "username": user.username}, HTTPStatus.OK

@@ -1,9 +1,10 @@
-import click
 from datetime import datetime
+
+import click
+import sqlalchemy as sa
 from flask import Flask, current_app
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
-import sqlalchemy as sa
 
 
 class Base(DeclarativeBase):
