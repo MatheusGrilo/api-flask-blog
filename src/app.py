@@ -16,11 +16,10 @@ db = SQLAlchemy(model_class=Base)
 class User(db.Model):
     id: Mapped[int] = mapped_column(sa.Integer, primary_key=True)
     username: Mapped[str] = mapped_column(sa.String, unique=True, nullable=False)
-    email: Mapped[str] = mapped_column(sa.String, unique=True, nullable=False)
     password: Mapped[str] = mapped_column(sa.String, nullable=False)
 
     def __repr__(self) -> str:
-        return f"User(id={self.id!r}, username={self.username!r}, email={self.email!r})"
+        return f"User(id={self.id!r}, username={self.username!r})"
 
 
 class Post(db.Model):
@@ -68,5 +67,10 @@ def create_app(test_config=None):
 
     # initialize extensions
     db.init_app(app)
+
+    # register blueprints
+    from src.controllers import user
+
+    app.register_blueprint(user.app)
 
     return app
